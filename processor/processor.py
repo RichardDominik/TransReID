@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.image as mpimg
 import cv2
 from torchvision.utils import save_image
-#from visualization.attention_visualization import VITAttentionGradRollout
+from visualization.attention_visualization import VITAttentionGradRollout
 
 #TODO: false 
 saveAttention = True
@@ -171,7 +171,6 @@ def do_inference(cfg,
     global numberOfSavedImages
     global path 
     global numberOfSavedImagess
-
     evaluator.reset()
 
     if device:
@@ -191,6 +190,32 @@ def do_inference(cfg,
             feat = model(img, cam_label=camids, view_label=target_view)
             
             if numberOfSavedImages < 20:
+                # att_mat = feat[0] 
+                #logger.info(att_mat.shape)
+
+                # Average the attention weights across all heads.
+                #att_mat = torch.mean(att_mat, dim=1)
+                # To account for residual connections, we add an identity matrix to the
+                # attention matrix and re-normalize the weights.
+                # residual_att = torch.eye(att_mat.size(1))
+                #aug_att_mat = att_mat.to(device) + residual_att.to(device)
+                #aug_att_mat = aug_att_mat / aug_att_mat.sum(dim=-1).unsqueeze(-1)
+
+                # Recursively multiply the weight matrices
+                #joint_attentions = torch.zeros(aug_att_mat.size()).to(device)
+                #joint_attentions[0] = aug_att_mat[0].to(device)
+
+                #for n in range(1, aug_att_mat.size(0)):
+                #    joint_attentions[n] = torch.matmul(aug_att_mat[n], joint_attentions[n-1])
+
+                # Attention from the output token to the input space.
+                #v = joint_attentions[-1]
+                #grid_size = int(np.sqrt(aug_att_mat.size(-1)))
+                #mask = v[0, 1:].reshape(grid_size, grid_size).detach().numpy()
+                #mask = cv2.resize(mask / mask.max(), im.size)[..., np.newaxis]
+                #result = (mask * im).astype("uint8") 
+                #grad_rollout = VITAttentionGradRollout(model, discard_ratio=0.9, cam_label=camids, view_label=target_view)
+                #mask = grad_rollout(img, category_index=1)
                 # logger.info(imgpath)
                 # logger.info(feat.shape)
                 # logger.info(img.shape)
@@ -200,14 +225,12 @@ def do_inference(cfg,
                 i = np.moveaxis(normalize(x.cpu().numpy()[0]), 0, -1)
                 # save_image(x[0], './examples/' + str(numberOfSavedImages) + '.jpg')
                 mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_normalized.jpg', i)
+                #mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_mask.jpg', show_mask_on_image(i, mask))
                 numberOfSavedImages += 1
-            #grad_rollout = VITAttentionGradRollout(model, discard_ratio=0.9, head_fusion='max')
-            #mask = grad_rollout(img, category_index=243)
-            
-            
+
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
-
+ 
     logger.info('Obrazky')
     logger.info(img_path_list)
 
