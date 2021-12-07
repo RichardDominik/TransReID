@@ -7,6 +7,21 @@ from utils.meter import AverageMeter
 from utils.metrics import R1_mAP_eval
 from torch.cuda import amp
 import torch.distributed as dist
+import numpy as np
+from torchvision.utils import save_image
+#from visualization.attention_visualization import VITAttentionGradRollout
+
+#TODO: false 
+saveAttention = True
+numberOfSavedImages = 0
+
+def show_mask_on_image(img, mask):
+    img = np.float32(img) / 255
+    heatmap = cv2.applyColorMap(np.uint8(255 * mask), cv2.COLORMAP_JET)
+    heatmap = np.float32(heatmap) / 255
+    cam = heatmap + np.float32(img)
+    cam = cam / np.max(cam)
+    return np.uint8(255 * cam)
 
 def do_train(cfg,
              model,
@@ -142,6 +157,8 @@ def do_inference(cfg,
     logger.info("Enter inferencing")
 
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
+    global numberOfSavedImages
+    global path 
 
     evaluator.reset()
 
@@ -160,6 +177,14 @@ def do_inference(cfg,
             camids = camids.to(device)
             target_view = target_view.to(device)
             feat = model(img, cam_label=camids, view_label=target_view)
+            
+            if numberOfSavedImages < 5:
+                save_image(img[0], './examples/' + str(numberOfSavedImages) + '.png')
+                numberOfSavedImages += 1
+            #grad_rollout = VITAttentionGradRollout(model, discard_ratio=0.9, head_fusion='max')
+            #mask = grad_rollout(img, category_index=243)
+            
+            
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
 
