@@ -8,12 +8,15 @@ from utils.metrics import R1_mAP_eval
 from torch.cuda import amp
 import torch.distributed as dist
 import numpy as np
+import matplotlib.image as mpimg
+import cv2
 from torchvision.utils import save_image
 #from visualization.attention_visualization import VITAttentionGradRollout
 
 #TODO: false 
 saveAttention = True
 numberOfSavedImages = 0
+numberOfSavedImagess = 0
 
 def show_mask_on_image(img, mask):
     img = np.float32(img) / 255
@@ -22,6 +25,14 @@ def show_mask_on_image(img, mask):
     cam = heatmap + np.float32(img)
     cam = cam / np.max(cam)
     return np.uint8(255 * cam)
+
+def normalize(x):
+    """
+    Normalize a list of sample image data in the range of 0 to 1
+    : x: List of image data.  The image shape is (32, 32, 3)
+    : return: Numpy array of normalized data
+    """
+    return np.array((x - np.min(x)) / (np.max(x) - np.min(x)))
 
 def do_train(cfg,
              model,
@@ -159,6 +170,7 @@ def do_inference(cfg,
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
     global numberOfSavedImages
     global path 
+    global numberOfSavedImagess
 
     evaluator.reset()
 
@@ -178,8 +190,16 @@ def do_inference(cfg,
             target_view = target_view.to(device)
             feat = model(img, cam_label=camids, view_label=target_view)
             
-            if numberOfSavedImages < 5:
-                save_image(img[0], './examples/' + str(numberOfSavedImages) + '.png')
+            if numberOfSavedImages < 20:
+                # logger.info(imgpath)
+                # logger.info(feat.shape)
+                # logger.info(img.shape)
+                # logger.info(img[0].shape)
+                # logger.info(img[0][0][0][0])
+                x = img
+                i = np.moveaxis(normalize(x.cpu().numpy()[0]), 0, -1)
+                # save_image(x[0], './examples/' + str(numberOfSavedImages) + '.jpg')
+                mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_normalized.jpg', i)
                 numberOfSavedImages += 1
             #grad_rollout = VITAttentionGradRollout(model, discard_ratio=0.9, head_fusion='max')
             #mask = grad_rollout(img, category_index=243)
