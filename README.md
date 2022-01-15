@@ -5,6 +5,8 @@
 
 The *official* repository for  [TransReID: Transformer-based Object Re-Identification](https://arxiv.org/abs/2102.04378) achieves state-of-the-art performances on object re-ID, including person re-ID and vehicle re-ID.
 
+
+Swin Transformer backbone WIP
 ## Pipeline
 
 ![framework](figs/framework.png)
@@ -53,6 +55,12 @@ data
 ### Prepare DeiT or ViT Pre-trained Models
 
 You need to download the ImageNet pretrained transformer model : [ViT-Base](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth), [ViT-Small](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/vit_small_p16_224-15ec54c9.pth), [DeiT-Small](https://dl.fbaipublicfiles.com/deit/deit_small_distilled_patch16_224-649709d9.pth), [DeiT-Base](https://dl.fbaipublicfiles.com/deit/deit_base_distilled_patch16_224-df68dfff.pth)
+
+
+### Prepare Swin Transformer Pre-trained Models
+
+You need to download the ImageNet pretrained transformer model : [Swin-Transforer-Base](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22k.pth)
+
 
 ## Training
 
