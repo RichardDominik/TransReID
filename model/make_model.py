@@ -3,6 +3,8 @@ import torch.nn as nn
 from .backbones.resnet import ResNet, Bottleneck
 import copy
 from .backbones.vit_pytorch import vit_base_patch16_224_TransReID, vit_small_patch16_224_TransReID, deit_small_patch16_224_TransReID
+# TODO: IMPLEMENT
+# from .backbones.swin.swin_transreid import swin_transfomer_base_patch16_224_TransReID
 from loss.metric_learning import Arcface, Cosface, AMSoftmax, CircleLoss
 
 def shuffle_unit(features, shift, group, begin=1):
@@ -388,6 +390,7 @@ __factory_T_type = {
     'deit_base_patch16_224_TransReID': vit_base_patch16_224_TransReID,
     'vit_small_patch16_224_TransReID': vit_small_patch16_224_TransReID,
     'deit_small_patch16_224_TransReID': deit_small_patch16_224_TransReID
+    # TODO: add swin init
 }
 
 def make_model(cfg, num_class, camera_num, view_num):
