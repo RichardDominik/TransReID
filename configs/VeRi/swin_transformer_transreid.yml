@@ -4,7 +4,7 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'transformer'
+  NAME: 'swin-backbone'
   NO_MARGIN: True
   DEVICE_ID: ('4')
   TRANSFORMER_TYPE: 'swin_base_patch4_window7_224'
