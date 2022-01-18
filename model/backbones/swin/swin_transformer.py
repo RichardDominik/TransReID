@@ -570,7 +570,7 @@ class SwinTransformer(nn.Module):
         x = torch.flatten(x, 1)
         return x
 
-    def forward(self, x):
+    def forward(self, x, cam_label=None, view_label=None):
         x = self.forward_features(x)
         x = self.head(x)
         return x

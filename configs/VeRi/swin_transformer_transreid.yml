@@ -1,6 +1,6 @@
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/home/richarddominik/diplomovka/TransReID/pretrained/swin_base_patch4_window7_224_22k.pth'
+  PRETRAIN_PATH: '/home/richarddominik/diplomovka/TransReID/pretrained/swin_base_patch4_window7_224_22kto1k.pth'
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
