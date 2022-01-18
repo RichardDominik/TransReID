@@ -94,11 +94,17 @@ class Backbone(nn.Module):
         self.bottleneck = nn.BatchNorm1d(self.in_planes)
         self.bottleneck.bias.requires_grad_(False)
         self.bottleneck.apply(weights_init_kaiming)
+        self.model_name = model_name
 
     def forward(self, x, label=None, cam_label=None, view_label=None):  # label is unused if self.cos_layer == 'no'
         x = self.base(x)
-        global_feat = nn.functional.avg_pool2d(x, x.shape[2:4])
-        global_feat = global_feat.view(global_feat.shape[0], -1)  # flatten to (bs, 2048)
+
+        # TODO: swin global feat ?
+        if self.model_name == 'resnet50':
+            global_feat = nn.functional.avg_pool2d(x, x.shape[2:4])
+            global_feat = global_feat.view(global_feat.shape[0], -1)  # flatten to (bs, 2048)
+        else:
+            global_feat = x
 
         if self.neck == 'no':
             feat = global_feat
