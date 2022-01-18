@@ -59,8 +59,7 @@ class Backbone(nn.Module):
         self.cos_layer = cfg.MODEL.COS_LAYER
         self.neck = cfg.MODEL.NECK
         self.neck_feat = cfg.TEST.NECK_FEAT
-        print(model_name)
-        print('totooooo')
+       
         if model_name == 'resnet50':
             self.in_planes = 2048
             self.base = ResNet(last_stride=last_stride,
