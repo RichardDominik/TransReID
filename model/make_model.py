@@ -68,8 +68,15 @@ class Backbone(nn.Module):
             print('using resnet50 as a backbone')
         elif model_name == 'swin_backbone':
             self.in_planes = 1024
-            # TODO params from cfg ? but SwinTransformer has default constructor
-            self.base = SwinTransformer()
+            self.base = SwinTransformer(
+                img_size=cfg.INPUT.SIZE_TRAIN[0],
+                patch_size=cfg.MODEL.SWIN_TRANSFORMER_PATCH_SIZE,
+                embed_dim=cfg.MODEL.SWIN_TRANSFORMER_EMBED_DIM,
+                depths=cfg.MODEL.SWIN_TRANSFORMER_DEPTHS,
+                num_heads=cfg.MODEL.SWIN_TRANSFORMER_NUM_HEADS,
+                window_size=cfg.MODEL.SWIN_TRANSFORMER_WINDOW_SIZE,
+                drop_path_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_PATH_RATE
+            )
             print('using SwinTransformer as a backbone')
         else:
             print('unsupported backbone! but got {}'.format(model_name))
@@ -406,10 +413,10 @@ def make_model(cfg, num_class, camera_num, view_num):
         else:
             model = build_transformer(num_class, camera_num, view_num, cfg, __factory_T_type)
             print('===========building transformer===========')
-    elif cfg.MODEL.NAME == 'swin-backbone':
-            # TODO: this is only baseline backbone, try to implement using custom build_transformer function
-            model = Backbone(num_class, cfg)
-            print('===========building Swin tranformer===========')
+    elif cfg.MODEL.NAME == 'swin_backbone':
+        # TODO: this is only baseline backbone, try to implement using custom build_transformer function
+        model = Backbone(num_class, cfg)
+        print('===========building Swin tranformer===========')
     else:
         model = Backbone(num_class, cfg)
         print('===========building ResNet===========')
