@@ -1,4 +1,4 @@
-from swin_transformer import SwinTransformer
+from model.backbones.swin.swin_transformer import SwinTransformer
 from model.backbones.vit_pytorch import TransReID
 from functools import partial
 import torch.nn as nn

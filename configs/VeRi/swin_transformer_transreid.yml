@@ -7,7 +7,7 @@ MODEL:
   NAME: 'swin-backbone'
   NO_MARGIN: True
   DEVICE_ID: ('4')
-  TRANSFORMER_TYPE: 'swin_base_patch4_window7_224'
+  TRANSFORMER_TYPE: 'swin_backbone'
   STRIDE_SIZE: [12, 12]
   SIE_CAMERA: True
   SIE_VIEW: True
