@@ -67,7 +67,7 @@ class Backbone(nn.Module):
                                layers=[3, 4, 6, 3])
             print('using resnet50 as a backbone')
         elif model_name == 'swin_backbone':
-            self.in_planes = 1024
+            self.in_planes = 1000
             self.base = SwinTransformer(
                 img_size=cfg.INPUT.SIZE_TRAIN[0],
                 patch_size=cfg.MODEL.SWIN_TRANSFORMER_PATCH_SIZE,
