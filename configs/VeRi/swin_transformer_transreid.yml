@@ -4,10 +4,10 @@ MODEL:
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
-  NAME: 'swin-backbone'
+  NAME: 'swin_backbone'
   NO_MARGIN: True
   DEVICE_ID: ('4')
-  TRANSFORMER_TYPE: 'swin_backbone'
+  TRANSFORMER_TYPE: 'swin_base_patch4_window7_224'
   STRIDE_SIZE: [12, 12]
   SIE_CAMERA: True
   SIE_VIEW: True
@@ -17,8 +17,8 @@ MODEL:
   RE_ARRANGE: True
 
 INPUT:
-  SIZE_TRAIN: [256, 256]
-  SIZE_TEST: [256, 256]
+  SIZE_TRAIN: [224, 224]
+  SIZE_TEST: [224, 224]
   PROB: 0.5 # random horizontal flip
   RE_PROB: 0.5 # random erasing
   PADDING: 10
