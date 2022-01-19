@@ -406,7 +406,7 @@ class build_transformer_local(nn.Module):
 
 class build_swin_transformer(nn.Module):
     def __init__(self, num_classes, camera_num, view_num, cfg, factory):
-        super(build_transformer, self).__init__()
+        super(build_swin_transformer, self).__init__()
         last_stride = cfg.MODEL.LAST_STRIDE
         model_path = cfg.MODEL.PRETRAIN_PATH
         model_name = cfg.MODEL.NAME
