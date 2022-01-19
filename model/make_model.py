@@ -77,7 +77,7 @@ class Backbone(nn.Module):
                 window_size=cfg.MODEL.SWIN_TRANSFORMER_WINDOW_SIZE,
                 drop_path_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_PATH_RATE,
                 drop_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_RATE,
-                attn_drop_rate=_C.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE,
+                attn_drop_rate=cfg.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE,
             )
             print('using SwinTransformer as a backbone')
         else:
@@ -437,7 +437,7 @@ class build_swin_transformer(nn.Module):
                 window_size=cfg.MODEL.SWIN_TRANSFORMER_WINDOW_SIZE,
                 drop_path_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_PATH_RATE,
                 drop_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_RATE,
-                attn_drop_rate=_C.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE,
+                attn_drop_rate=cfg.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE,
             )
 
         if pretrain_choice == 'imagenet':
