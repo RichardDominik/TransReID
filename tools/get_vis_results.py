@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	"--config_file", default="", help="path to config file", type=str
 	)
 	parser.add_argument("opts", help="Modify config options using the command-line", default=None,
-	            nargs=argparse.REMAINDER)
+				nargs=argparse.REMAINDER)
 
 	args = parser.parse_args()
 
@@ -55,26 +55,26 @@ if __name__ == "__main__":
 	model = model.to(device)
 
 	transform = T.Compose([
-	    T.Resize(cfg.INPUT.SIZE_TEST),
-	    T.ToTensor(),
-	    T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+		T.Resize(cfg.INPUT.SIZE_TEST),
+		T.ToTensor(),
+		T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 	])
-
+	
 	log_dir = cfg.LOG_DIR
 	logger = setup_logger('{}.test'.format(cfg.PROJECT_NAME), log_dir)
 	model.eval()
 	for test_img in os.listdir(cfg.QUERY_DIR):
-	    logger.info('Finding ID {} ...'.format(test_img))
+		logger.info('Finding ID {} ...'.format(test_img))
 
-	    gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
-	    img_path = np.load('./logs/imgpath.npy')
-	    print(gallery_feats.shape, len(img_path))
-	    query_img = Image.open(cfg.QUERY_DIR + test_img)
-	    input = torch.unsqueeze(transform(query_img), 0)
-	    input = input.to(device)
-	    with torch.no_grad():
-	        query_feat = model(input)
+		gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
+		img_path = np.load('./logs/imgpath.npy')
+		print(gallery_feats.shape, len(img_path))
+		query_img = Image.open(cfg.QUERY_DIR + test_img)
+		input = torch.unsqueeze(transform(query_img), 0)
+		input = input.to(device)
+		with torch.no_grad():
+			query_feat = model(input)
 
-	    dist_mat = cosine_similarity(query_feat, gallery_feats)
-	    indices = np.argsort(dist_mat, axis=1)
+		dist_mat = cosine_similarity(query_feat, gallery_feats)
+		indices = np.argsort(dist_mat, axis=1)
 		visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT_SIZE)
