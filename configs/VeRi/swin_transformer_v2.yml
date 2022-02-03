@@ -57,5 +57,8 @@ TEST:
   FEAT_NORM: 'yes'
 
 OUTPUT_DIR: './logs/veri_swin_transformer_v2'
+LOG_DIR: './logs'
+PROJECT_NAME: 'swin trans pnspv'
+QUERY_DIR: './data/VeRi/image_query'
 
 

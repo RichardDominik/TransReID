@@ -163,6 +163,8 @@ def do_inference(cfg,
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
 
+    numpy.save('./logs/imgpath.npy', img_path_list)
+
     cmc, mAP, _, _, _, _, _ = evaluator.compute()
     logger.info("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
