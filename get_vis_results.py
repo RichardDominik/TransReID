@@ -14,7 +14,7 @@ from model import make_model
 from datasets import make_dataloader
 import numpy as np
 import cv2
-from utils.metrics import cosine_similarity
+from utils.metrics import cosine_similarity, euclidean_distance
 
 
 def visualizer(test_img, camid, top_k = 10, img_size=[128,128]):
@@ -77,6 +77,7 @@ if __name__ == "__main__":
 		with torch.no_grad():
 			query_feat = model(input)
 
-		dist_mat = cosine_similarity(query_feat, gallery_feats)
+		dist_mat = euclidean_distance(query_feat, gallery_feats)
+		# dist_mat = cosine_similarity(query_feat, gallery_feats)
 		indices = np.argsort(dist_mat, axis=1)
 		visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT.SIZE_TEST)
