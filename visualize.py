@@ -3,7 +3,7 @@ from config import cfg
 import argparse
 from datasets import make_dataloader
 from model import make_model
-from processor import do_inference
+from processor import do_visualization
 from utils.logger import setup_logger
 
 
