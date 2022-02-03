@@ -25,7 +25,7 @@ def visualizer(test_img, camid, top_k = 10, img_size=[128,128]):
         figure = np.hstack((figure, img))
         title=name
     figure = cv2.cvtColor(figure,cv2.COLOR_BGR2RGB)
-    if not os.path.exists(Cfg.LOG_DIR+ "/results/"):
+    if not os.path.exists(cfg.LOG_DIR+ "/results/"):
         print('need to create a new folder named results in {}'.format(Cfg.LOG_DIR))
     cv2.imwrite(Cfg.LOG_DIR+ "/results/{}-cam{}.png".format(test_img,camid),figure)
 
