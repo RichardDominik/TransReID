@@ -30,20 +30,18 @@ def visualizer(test_img, camid, top_k = 10, img_size=[128,128]):
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="ReID Baseline Visualization")
-    parser.add_argument(
-        "--config_file", default="", help="path to config file", type=str
-    )
-    parser.add_argument("opts", help="Modify config options using the command-line", default=None,
-                        nargs=argparse.REMAINDER)
+	parser.add_argument(
+	"--config_file", default="", help="path to config file", type=str
+	)
+	parser.add_argument("opts", help="Modify config options using the command-line", default=None,
+	            nargs=argparse.REMAINDER)
 
-    args = parser.parse_args()
+	args = parser.parse_args()
 
-
-
-    if args.config_file != "":
-        cfg.merge_from_file(args.config_file)
-    cfg.merge_from_list(args.opts)
-    cfg.freeze()
+	if args.config_file != "":
+	cfg.merge_from_file(args.config_file)
+	cfg.merge_from_list(args.opts)
+	cfg.freeze()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = cfg.MODEL.DEVICE_ID
     cudnn.benchmark = True
