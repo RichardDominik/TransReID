@@ -7,6 +7,7 @@ from utils.meter import AverageMeter
 from utils.metrics import R1_mAP_eval
 from torch.cuda import amp
 import torch.distributed as dist
+import numpy as np
 
 def do_train(cfg,
              model,
@@ -163,7 +164,7 @@ def do_inference(cfg,
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
 
-    numpy.save('./logs/imgpath.npy', img_path_list)
+    np.save('./logs/imgpath.npy', img_path_list)
 
     cmc, mAP, _, _, _, _, _ = evaluator.compute()
     logger.info("Validation Results ")
