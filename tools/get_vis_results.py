@@ -61,7 +61,7 @@ if __name__ == "__main__":
 	])
 	
 	log_dir = cfg.LOG_DIR
-	logger = setup_logger('{}.test'.format(cfg.PROJECT_NAME), log_dir)
+	logger = setup_logger('{}.test'.format(cfg.PROJECT_NAME), log_dir, if_train=False)
 	model.eval()
 	for test_img in os.listdir(cfg.QUERY_DIR):
 		logger.info('Finding ID {} ...'.format(test_img))
