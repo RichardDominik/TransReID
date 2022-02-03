@@ -139,7 +139,7 @@ class R1_mAP_eval():
         # query_cam -> q_camids
 
         if save_mat:
-            result = {'gallery_f':gallery_feature.numpy(),'gallery_label':gallery_label,'gallery_cam':gallery_cam,'query_f':query_feature.numpy(),'query_label':query_label,'query_cam':query_cam}
+            result = {'gallery_f':gf.numpy(),'gallery_label':q_pids,'gallery_cam':q_camids,'query_f':qf.numpy(),'query_label':q_pids,'query_cam':q_camids}
             scipy.io.savemat('pytorch_result.mat',result)
 
         return cmc, mAP, distmat, self.pids, self.camids, qf, gf
