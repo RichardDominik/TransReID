@@ -166,7 +166,12 @@ def do_inference(cfg,
 
     np.save('./logs/imgpath.npy', img_path_list)
 
-    cmc, mAP, _, _, _, _, _ = evaluator.compute()
+    cmc, mAP, distmat, pids, camids, qfeats, gfeats = evaluator.compute()
+
+    # save for visualization
+    torch.save(qfeats, os.path.join(cfg.LOG_DIR, 'qfeats.pth'))
+    torch.save(gfeats, os.path.join(cfg.LOG_DIR, 'gfeats.pth'))
+
     logger.info("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
     for r in [1, 5, 10]:

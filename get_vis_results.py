@@ -66,13 +66,8 @@ if __name__ == "__main__":
 	model.eval()
 	for test_img in os.listdir(cfg.QUERY_DIR):
 		logger.info('Finding ID {} ...'.format(test_img))
-
-		model2 = make_model(cfg, num_class=num_classes, camera_num=camera_num, view_num = view_num)
-		model2.load_param(cfg.TEST.WEIGHT)
-		model2 = model2.to(device)
-		gallery_feats = model2.load_state_dict(torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth'))
-		gallery_feats.eval()
-		#gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
+		
+		gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
 		img_path = np.load('./logs/imgpath.npy')
 		print(gallery_feats.shape, len(img_path))
 		query_img = Image.open(cfg.QUERY_DIR + test_img)
