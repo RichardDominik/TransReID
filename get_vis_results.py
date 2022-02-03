@@ -70,7 +70,7 @@ if __name__ == "__main__":
 		model2 = make_model(cfg, num_class=num_classes, camera_num=camera_num, view_num = view_num)
 		model2.load_param(cfg.TEST.WEIGHT)
 		model2 = model2.to(device)
-		gallery_feats = model2.load_state_dict(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
+		gallery_feats = model2.load_state_dict(torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth'))
 		gallery_feats.eval()
 		#gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
 		img_path = np.load('./logs/imgpath.npy')
