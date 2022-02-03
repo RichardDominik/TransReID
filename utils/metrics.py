@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import os
 from utils.reranking import re_ranking
+import scipy.io
 
 
 def euclidean_distance(qf, gf):
@@ -106,7 +107,7 @@ class R1_mAP_eval():
         self.pids.extend(np.asarray(pid))
         self.camids.extend(np.asarray(camid))
 
-    def compute(self):  # called after each epoch
+    def compute(self, save_mat=False):  # called after each epoch
         feats = torch.cat(self.feats, dim=0)
         if self.feat_norm:
             print("The test feature is normalized")
@@ -129,6 +130,17 @@ class R1_mAP_eval():
             print('=> Computing DistMat with euclidean_distance')
             distmat = euclidean_distance(qf, gf)
         cmc, mAP = eval_func(distmat, q_pids, g_pids, q_camids, g_camids)
+
+        # gallery_f -> gf
+        # gallery_label -> q_pids
+        # gallery_cam -> q_camids
+        # query_f -> qf
+        # query_label -> q_pids
+        # query_cam -> q_camids
+
+        if save_mat:
+            result = {'gallery_f':gallery_feature.numpy(),'gallery_label':gallery_label,'gallery_cam':gallery_cam,'query_f':query_feature.numpy(),'query_label':query_label,'query_cam':query_cam}
+            scipy.io.savemat('pytorch_result.mat',result)
 
         return cmc, mAP, distmat, self.pids, self.camids, qf, gf
 

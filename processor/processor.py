@@ -176,7 +176,7 @@ def do_visualization(cfg,
                  num_query):
     device = "cuda"
     logger = logging.getLogger("transreid.test")
-    logger.info("Enter inferencing")
+    logger.info("Enter visualization")
 
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
 
@@ -201,7 +201,7 @@ def do_visualization(cfg,
             img_path_list.extend(imgpath)
             print(img_path_list)
 
-    cmc, mAP, _, _, _, _, _ = evaluator.compute()
+    cmc, mAP, _, _, _, _, _ = evaluator.compute(True)
     logger.info("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
     for r in [1, 5, 10]:
