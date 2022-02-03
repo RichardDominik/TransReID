@@ -21,7 +21,7 @@ def visualizer(test_img, camid, top_k = 10, img_size=[128,128]):
     figure = np.asarray(query_img.resize((img_size[1],img_size[0])))
     for k in range(top_k):
         name = str(indices[0][k]).zfill(6)
-        img = np.asarray(Image.open(img_path[indices[0][k]]).resize((img_size[1],img_size[0])))
+        img = np.asarray(Image.open(cfg.QUERY_DIR + '/' + img_path[indices[0][k]]).resize((img_size[1],img_size[0])))
         figure = np.hstack((figure, img))
         title=name
     figure = cv2.cvtColor(figure,cv2.COLOR_BGR2RGB)
