@@ -164,7 +164,7 @@ def do_inference(cfg,
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
 
-    np.save('./logs/imgpath.npy', img_path_list)
+    np.save('./logs/imgpath.npy', img_path_list[num_query:])
 
     cmc, mAP, distmat, pids, camids, qfeats, gfeats = evaluator.compute()
 
