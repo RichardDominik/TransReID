@@ -68,7 +68,7 @@ if __name__ == "__main__":
 		logger.info('Finding ID {} ...'.format(test_img))
 		
 		gallery_feats = torch.load(cfg.LOG_DIR + '/gfeats.pth')
-		
+
 		img_path = np.load('./logs/imgpath.npy')
 		print(gallery_feats.shape, len(img_path))
 		query_img = Image.open(cfg.QUERY_DIR + '/' + test_img)
@@ -79,4 +79,4 @@ if __name__ == "__main__":
 
 		dist_mat = cosine_similarity(query_feat, gallery_feats)
 		indices = np.argsort(dist_mat, axis=1)
-		visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT_SIZE)
+		visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT.SIZE_TEST)
