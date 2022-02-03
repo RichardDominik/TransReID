@@ -1,6 +1,7 @@
 # https://github.com/lulujianjie/person-reid-tiny-baseline/blob/master/tools/get_vis_result.py
 
 import os
+import argparse
 import sys
 from config import cfg
 import torch
