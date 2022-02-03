@@ -6,6 +6,10 @@ import scipy.io
 
 
 def euclidean_distance(qf, gf):
+    device = 'cpu'
+    gf = gf.to(device)
+    qf = qf.to(device)
+    
     m = qf.shape[0]
     n = gf.shape[0]
     dist_mat = torch.pow(qf, 2).sum(dim=1, keepdim=True).expand(m, n) + \
