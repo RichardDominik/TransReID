@@ -77,4 +77,4 @@ if __name__ == "__main__":
 
 	    dist_mat = cosine_similarity(query_feat, gallery_feats)
 	    indices = np.argsort(dist_mat, axis=1)
-    	visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT_SIZE)
+		visualizer(test_img, camid='mixed', top_k=10, img_size=cfg.INPUT_SIZE)
