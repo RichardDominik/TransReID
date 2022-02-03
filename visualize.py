@@ -45,4 +45,5 @@ if __name__ == "__main__":
     model = make_model(cfg, num_class=num_classes, camera_num=camera_num, view_num = view_num)
     model.load_param(cfg.TEST.WEIGHT)
     
-    do_visualization(cfg, model, val_loader, num_query)
+    do_visualization(cfg, model, val_loader,num_query)
+
