@@ -67,10 +67,11 @@ if __name__ == "__main__":
 	for test_img in os.listdir(cfg.QUERY_DIR):
 		logger.info('Finding ID {} ...'.format(test_img))
 		
-		gallery_feats = torch.load(cfg.LOG_DIR + '/veri_swin_transformer_v2/swin_transformer_120.pth')
+		gallery_feats = torch.load(cfg.LOG_DIR + '/gfeats.pth')
+		
 		img_path = np.load('./logs/imgpath.npy')
 		print(gallery_feats.shape, len(img_path))
-		query_img = Image.open(cfg.QUERY_DIR + test_img)
+		query_img = Image.open(cfg.QUERY_DIR + '/' + test_img)
 		input = torch.unsqueeze(transform(query_img), 0)
 		input = input.to(device)
 		with torch.no_grad():

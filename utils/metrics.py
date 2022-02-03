@@ -14,7 +14,11 @@ def euclidean_distance(qf, gf):
     return dist_mat.cpu().numpy()
 
 def cosine_similarity(qf, gf):
+    device = 'cuda'
     epsilon = 0.00001
+    gf = gf.to(device)
+    qf = qf.to(device)
+
     dist_mat = qf.mm(gf.t())
     qf_norm = torch.norm(qf, p=2, dim=1, keepdim=True)  # mx1
     gf_norm = torch.norm(gf, p=2, dim=1, keepdim=True)  # nx1
