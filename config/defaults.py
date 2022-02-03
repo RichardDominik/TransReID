@@ -200,3 +200,7 @@ _C.TEST.EVAL = False
 # ---------------------------------------------------------------------------- #
 # Path to checkpoint and saved log of trained model
 _C.OUTPUT_DIR = ""
+
+_C.LOG_DIR: './logs'
+_C.PROJECT_NAME: 'swin trans pnspv'
+_C.QUERY_DIR: './data/VeRi/image_query'
