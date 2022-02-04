@@ -189,7 +189,7 @@ def do_inference(cfg,
             target_view = target_view.to(device)
             feat = model(img, cam_label=camids, view_label=target_view)
             
-            if numberOfSavedImages < 20:
+            #if numberOfSavedImages < 20:
                 # att_mat = feat[0] 
                 #logger.info(att_mat.shape)
 
@@ -221,20 +221,26 @@ def do_inference(cfg,
                 # logger.info(img.shape)
                 # logger.info(img[0].shape)
                 # logger.info(img[0][0][0][0])
-                x = img
-                i = np.moveaxis(normalize(x.cpu().numpy()[0]), 0, -1)
+                #x = img
+                #i = np.moveaxis(normalize(x.cpu().numpy()[0]), 0, -1)
                 # save_image(x[0], './examples/' + str(numberOfSavedImages) + '.jpg')
-                mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_normalized.jpg', i)
+                #mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_normalized.jpg', i)
                 #mpimg.imsave('./examples/' + str(numberOfSavedImages) + '_mask.jpg', show_mask_on_image(i, mask))
-                numberOfSavedImages += 1
+                #numberOfSavedImages += 1
 
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
  
-    logger.info('Obrazky')
-    logger.info(img_path_list)
+    #logger.info('Obrazky')
+    #logger.info(img_path_list)
 
-    cmc, mAP, _, _, _, _, _ = evaluator.compute()
+    np.save('./logs/imgpath.npy', img_path_list[num_query:])
+
+    cmc, mAP, distmat, pids, camids, qfeats, gfeats = evaluator.compute()
+
+    # save for visualization
+    torch.save(qfeats, os.path.join(cfg.LOG_DIR, 'qfeats.pth'))
+    torch.save(gfeats, os.path.join(cfg.LOG_DIR, 'gfeats.pth'))
     logger.info("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
     for r in [1, 5, 10]:
