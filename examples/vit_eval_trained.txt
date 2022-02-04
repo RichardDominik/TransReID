@@ -1,0 +1,192 @@
+2021-11-27 12:02:58,191 transreid INFO: Namespace(config_file='configs/VeRi/vit_transreid_stride.yml', opts=['MODEL.DEVICE_ID', "('0')", 'TEST.WEIGHT', './logs/veri_vit_transreid_stride/transformer_120.pth'])
+2021-11-27 12:02:58,191 transreid INFO: Loaded configuration file configs/VeRi/vit_transreid_stride.yml
+2021-11-27 12:02:58,191 transreid INFO: 
+MODEL:
+  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_PATH: '/home/richarddominik/diplomovka/TransReID/pretrained/jx_vit_base_p16_224-80ecf9dd.pth'
+  METRIC_LOSS_TYPE: 'triplet'
+  IF_LABELSMOOTH: 'off'
+  IF_WITH_CENTER: 'no'
+  NAME: 'transformer'
+  NO_MARGIN: True
+  DEVICE_ID: ('2')
+  TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
+  STRIDE_SIZE: [12, 12]
+  SIE_CAMERA: True
+  SIE_VIEW: True
+  SIE_COE: 3.0
+  JPM: True
+  SHIFT_NUM: 8
+  RE_ARRANGE: True
+
+INPUT:
+  SIZE_TRAIN: [256, 256]
+  SIZE_TEST: [256, 256]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+  PIXEL_MEAN: [0.5, 0.5, 0.5]
+  PIXEL_STD: [0.5, 0.5, 0.5]
+
+DATASETS:
+  NAMES: ('veri')
+  ROOT_DIR: ('./data')
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'SGD'
+  MAX_EPOCHS: 120
+  BASE_LR: 0.01
+  IMS_PER_BATCH: 16
+  WARMUP_METHOD: 'linear'
+  LARGE_FC_LR: False
+  CHECKPOINT_PERIOD: 10
+  LOG_PERIOD: 50
+  EVAL_PERIOD: 120
+  WEIGHT_DECAY:  1e-4
+  WEIGHT_DECAY_BIAS: 1e-4
+  BIAS_LR_FACTOR: 2
+
+TEST:
+  EVAL: True
+  IMS_PER_BATCH: 16
+  RE_RANKING: False
+  WEIGHT: ''
+  NECK_FEAT: 'before'
+  FEAT_NORM: 'yes'
+
+OUTPUT_DIR: './logs/veri_vit_transreid_stride'
+
+
+
+2021-11-27 12:02:58,191 transreid INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+  SAMPLER: softmax_triplet
+DATASETS:
+  NAMES: veri
+  ROOT_DIR: ./data
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.5, 0.5, 0.5]
+  PIXEL_STD: [0.5, 0.5, 0.5]
+  PROB: 0.5
+  RE_PROB: 0.5
+  SIZE_TEST: [256, 256]
+  SIZE_TRAIN: [256, 256]
+MODEL:
+  ATT_DROP_RATE: 0.0
+  COS_LAYER: False
+  DEVICE: cuda
+  DEVICE_ID: 0
+  DEVIDE_LENGTH: 4
+  DIST_TRAIN: False
+  DROP_OUT: 0.0
+  DROP_PATH: 0.1
+  ID_LOSS_TYPE: softmax
+  ID_LOSS_WEIGHT: 1.0
+  IF_LABELSMOOTH: off
+  IF_WITH_CENTER: no
+  JPM: True
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: triplet
+  NAME: transformer
+  NECK: bnneck
+  NO_MARGIN: True
+  PRETRAIN_CHOICE: imagenet
+  PRETRAIN_PATH: /home/richarddominik/diplomovka/TransReID/pretrained/jx_vit_base_p16_224-80ecf9dd.pth
+  RE_ARRANGE: True
+  SHIFT_NUM: 8
+  SHUFFLE_GROUP: 2
+  SIE_CAMERA: True
+  SIE_COE: 3.0
+  SIE_VIEW: True
+  STRIDE_SIZE: [12, 12]
+  TRANSFORMER_TYPE: vit_base_patch16_224_TransReID
+  TRIPLET_LOSS_WEIGHT: 1.0
+OUTPUT_DIR: ./logs/veri_vit_transreid_stride
+SOLVER:
+  BASE_LR: 0.01
+  BIAS_LR_FACTOR: 2
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 10
+  COSINE_MARGIN: 0.5
+  COSINE_SCALE: 30
+  EVAL_PERIOD: 120
+  GAMMA: 0.1
+  IMS_PER_BATCH: 16
+  LARGE_FC_LR: False
+  LOG_PERIOD: 50
+  MARGIN: 0.3
+  MAX_EPOCHS: 120
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: SGD
+  SEED: 1234
+  STEPS: (40, 70)
+  WARMUP_EPOCHS: 5
+  WARMUP_FACTOR: 0.01
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0001
+  WEIGHT_DECAY_BIAS: 0.0001
+TEST:
+  DIST_MAT: dist_mat.npy
+  EVAL: True
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 16
+  NECK_FEAT: before
+  RE_RANKING: False
+  WEIGHT: ./logs/veri_vit_transreid_stride/transformer_120.pth
+{0, 1, 2, 3, 4, 5, 6, 7} view_container
+63 samples without viewpoint annotations
+{0, 1, 2, 3, 4, 5, 6, 7} view_container
+0 samples without viewpoint annotations
+{0, 1, 2, 3, 4, 5, 6, 7} view_container
+0 samples without viewpoint annotations
+=> VeRi-776 loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   576 |    37715 |        20
+  query    |   200 |     1678 |        19
+  gallery  |   200 |    11579 |        19
+  ----------------------------------------
+using Transformer_type: vit_base_patch16_224_TransReID as a backbone
+using stride: [12, 12], and patch number is num_y21 * num_x21
+camera number is : 20 and viewpoint number is : 8
+using SIE_Lambda is : 3.0
+using drop_out rate is : 0.0
+using attn_drop_out rate is : 0.0
+using drop_path rate is : 0.1
+Resized position embedding from size:torch.Size([1, 197, 768]) to size: torch.Size([1, 442, 768]) with height:21 width: 21
+Loading pretrained ImageNet model......from /home/richarddominik/diplomovka/TransReID/pretrained/jx_vit_base_p16_224-80ecf9dd.pth
+using shuffle_groups size:2
+using shift_num size:8
+using divide_length size:4
+===========building transformer with JPM module ===========
+Loading pretrained model from ./logs/veri_vit_transreid_stride/transformer_120.pth
+2021-11-27 12:03:09,473 transreid.test INFO: Enter inferencing
+/opt/conda/lib/python3.7/site-packages/torchvision/transforms/transforms.py:258: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/opt/conda/lib/python3.7/site-packages/torch/utils/data/dataloader.py:477: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  cpuset_checked))
+/opt/conda/lib/python3.7/site-packages/torch/nn/functional.py:3458: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode)
+The test feature is normalized
+=> Computing DistMat with euclidean_distance
+2021-11-27 12:10:50,655 transreid.test INFO: Validation Results 
+2021-11-27 12:10:50,656 transreid.test INFO: mAP: 78.1%
+2021-11-27 12:10:50,656 transreid.test INFO: CMC curve, Rank-1  :96.7%
+2021-11-27 12:10:50,656 transreid.test INFO: CMC curve, Rank-5  :98.3%
+2021-11-27 12:10:50,656 transreid.test INFO: CMC curve, Rank-10 :99.1%
+/home/richarddominik/diplomovka/TransReID/utils/metrics.py:12: UserWarning: This overload of addmm_ is deprecated:
+	addmm_(Number beta, Number alpha, Tensor mat1, Tensor mat2)
+Consider using one of the following signatures instead:
+	addmm_(Tensor mat1, Tensor mat2, *, Number beta, Number alpha) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:1005.)
+  dist_mat.addmm_(1, -2, qf, gf.t())
