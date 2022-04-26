@@ -34,8 +34,6 @@ def eval_func(distmat, q_pids, g_pids, q_camids, g_camids, max_rank=50):
         Key: for each query identity, its gallery images from the same camera view are discarded.
         """
     num_q, num_g = distmat.shape
-    print('Distmat eval shape vypis')
-    print(distmat.shape)
     # distmat g
     #    q    1 3 2 4
     #         4 1 2 3
@@ -131,17 +129,13 @@ class R1_mAP_eval():
         if cfg.PERFORMANCE_EXPERIMENT:
             indices_of_elements_to_delete = random.sample(range(11579), 5789)
             gf_numpy = gf.cpu().numpy()
-            print('NP before shape {}'.format(gf_numpy.shape))
             gf_numpy = np.delete(gf_numpy, indices_of_elements_to_delete, axis=0)
-
-            print('NP after shape {}'.format(gf_numpy.shape))
-
             gf = torch.from_numpy(gf_numpy)
 
             g_pids = np.delete(g_pids, indices_of_elements_to_delete)
             g_camids = np.delete(g_camids, indices_of_elements_to_delete)
 
-            print('Pefromance gallery shapes, gf {0}, g_pids {1}, f_camids {2}'.format(gf.shape, g_pids.shape, g_camids.shape))
+            print('Performance gallery shapes, gf {0}, g_pids {1}, f_camids {2}'.format(gf.shape, g_pids.shape, g_camids.shape))
 
         if self.reranking:
             print('=> Enter reranking')
@@ -152,28 +146,6 @@ class R1_mAP_eval():
             print('=> Computing DistMat with euclidean_distance')
             distmat = euclidean_distance(qf, gf)
 
-        # iba 0.7% mAP
-        # temp_distmat = []
-
-        #for vehicle_dist in distmat:
-        #    indices_of_elements_to_delete = random.sample(range(11579), 300)
-            # 5789
-        #    vehicle_dist = np.delete(vehicle_dist, indices_of_elements_to_delete)
-        #    temp_distmat.append(vehicle_dist.tolist())
-
-        #indices_of_elements_to_delete = random.sample(range(11579), 5789)
-        #indices_of_gallery_elements_to_delete = np.take(distmat[0], indices_of_elements_to_delete)
-
-        #distmat = np.delete(distmat, indices_of_elements_to_delete, axis=1)
-        # g_pids = np.delete(g_pids, indices_of_gallery_elements_to_delete)
-
-        #distmat = np.asarray(temp_distmat)
-
-        # vymazanie queries
-        # indices_of_elements_to_delete = random.sample(range(1678), 839)
-        # distmat = np.delete(distmat,indices_of_elements_to_delete, axis=0)
-        print('Distmat shape vypis')
-        print(distmat.shape)
         cmc, mAP = eval_func(distmat, q_pids, g_pids, q_camids, g_camids)
 
         return cmc, mAP, distmat, self.pids, self.camids, qf, gf
