@@ -101,7 +101,6 @@ class Backbone(nn.Module):
     def forward(self, x, label=None, cam_label=None, view_label=None):  # label is unused if self.cos_layer == 'no'
         x = self.base(x)
 
-        # TODO: swin global feat ?
         if self.model_name == 'resnet50':
             global_feat = nn.functional.avg_pool2d(x, x.shape[2:4])
             global_feat = global_feat.view(global_feat.shape[0], -1)  # flatten to (bs, 2048)
@@ -427,7 +426,6 @@ class build_swin_transformer(nn.Module):
         else:
             view_num = 0
  
-        #TODO: own method
         self.base = SwinTransformer(
                 img_size=cfg.INPUT.SIZE_TRAIN[0],
                 patch_size=cfg.MODEL.SWIN_TRANSFORMER_PATCH_SIZE,
@@ -500,7 +498,6 @@ def make_model(cfg, num_class, camera_num, view_num):
             model = build_transformer(num_class, camera_num, view_num, cfg, __factory_T_type)
             print('===========building transformer===========')
     elif cfg.MODEL.NAME == 'swin_backbone':
-        # TODO: this is only baseline backbone, try to implement using custom build_transformer function
         model = Backbone(num_class, cfg)
         print('===========building Swin tranformer backbone===========')
     elif cfg.MODEL.NAME == 'swin_transformer':
