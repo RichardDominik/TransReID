@@ -165,20 +165,22 @@ def do_inference(cfg,
     img_path_list = []
 
     for n_iter, (img, pid, camid, camids, target_view, imgpath) in enumerate(val_loader):
+        #start = time.time()
         with torch.no_grad():
             img = img.to(device)
             camids = camids.to(device)
             target_view = target_view.to(device)
             feat = model(img, cam_label=camids, view_label=target_view)
-            
+
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
+        #end = time.time()
+        #print(end-start)
 
     np.save('./logs/imgpath.npy', img_path_list[num_query:])
 
     cmc, mAP, distmat, pids, camids, qfeats, gfeats = evaluator.compute()
 
-    # save for visualization
     torch.save(qfeats, os.path.join(cfg.LOG_DIR, 'qfeats.pth'))
     torch.save(gfeats, os.path.join(cfg.LOG_DIR, 'gfeats.pth'))
     logger.info("Validation Results ")
