@@ -1,13 +1,14 @@
 ![Python >=3.5](https://img.shields.io/badge/Python->=3.5-yellow.svg)
 ![PyTorch >=1.0](https://img.shields.io/badge/PyTorch->=1.6-blue.svg)
 
-# [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
+# Master thesis
+Master thesis Swin Transformer VeRi-776 solution
+
+# Original paper [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
 
 The *official* repository for  [TransReID: Transformer-based Object Re-Identification](https://arxiv.org/abs/2102.04378) achieves state-of-the-art performances on object re-ID, including person re-ID and vehicle re-ID.
 
-
-Swin Transformer backbone WIP
-## Pipeline
+## Original paper pipeline
 
 ![framework](figs/framework.png)
 
@@ -59,7 +60,7 @@ You need to download the ImageNet pretrained transformer model : [ViT-Base](http
 
 ### Prepare Swin Transformer Pre-trained Models
 
-You need to download the ImageNet pretrained transformer model : [Swin-Transforer-Base](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22k.pth)
+You need to download the ImageNet pretrained transformer model : [Swin-Transformer-Base](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22kto1k.pth)
 
 
 ## Training
@@ -134,7 +135,13 @@ python test.py --config_file configs/VeRi/vit_transreid_stride.yml MODEL.DEVICE_
 python test.py --config_file configs/VehicleID/vit_transreid_stride.yml MODEL.DEVICE_ID "('0')" TEST.WEIGHT '../logs/vehicleID_vit_transreid_stride/transformer_120.pth'
 ```
 
-## Trained Models and logs (Size 256)
+## Results Visualization 
+
+```bash
+vit-visualization.sh
+```
+
+## Trained Models and logs from original paper (Size 256)
 
 ![framework](figs/sota.png)
 
