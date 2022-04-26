@@ -8,16 +8,6 @@ from utils.metrics import R1_mAP_eval
 from torch.cuda import amp
 import torch.distributed as dist
 import numpy as np
-import matplotlib.image as mpimg
-import cv2
-
-def normalize(x):
-    """
-    Normalize a list of sample image data in the range of 0 to 1
-    : x: List of image data.  The image shape is (32, 32, 3)
-    : return: Numpy array of normalized data
-    """
-    return np.array((x - np.min(x)) / (np.max(x) - np.min(x)))
 
 def do_train(cfg,
              model,

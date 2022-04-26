@@ -58,6 +58,6 @@ TEST:
 
 OUTPUT_DIR: './logs/veri_vit_transreid_stride'
 LOG_DIR: './logs'
-PROJECT_NAME: 'swin trans pnspv'
+PROJECT_NAME: 'vit trans pnspv'
 QUERY_DIR: './data/VeRi/image_query'
 PERFORMANCE_EXPERIMENT: True
