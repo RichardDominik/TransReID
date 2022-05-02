@@ -2,9 +2,13 @@ import torch
 import numpy as np
 import os
 from utils.reranking import re_ranking
-
+import random
+from config import cfg
 
 def euclidean_distance(qf, gf):
+    device = 'cpu'
+    gf = gf.to(device)
+    qf = qf.to(device)
     m = qf.shape[0]
     n = gf.shape[0]
     dist_mat = torch.pow(qf, 2).sum(dim=1, keepdim=True).expand(m, n) + \
@@ -120,6 +124,19 @@ class R1_mAP_eval():
         g_pids = np.asarray(self.pids[self.num_query:])
 
         g_camids = np.asarray(self.camids[self.num_query:])
+
+        # smaller gallery
+        if cfg.PERFORMANCE_EXPERIMENT:
+            indices_of_elements_to_delete = random.sample(range(11579), 5789)
+            gf_numpy = gf.cpu().numpy()
+            gf_numpy = np.delete(gf_numpy, indices_of_elements_to_delete, axis=0)
+            gf = torch.from_numpy(gf_numpy)
+
+            g_pids = np.delete(g_pids, indices_of_elements_to_delete)
+            g_camids = np.delete(g_camids, indices_of_elements_to_delete)
+
+            print('Performance gallery shapes, gf {0}, g_pids {1}, f_camids {2}'.format(gf.shape, g_pids.shape, g_camids.shape))
+
         if self.reranking:
             print('=> Enter reranking')
             # distmat = re_ranking(qf, gf, k1=20, k2=6, lambda_value=0.3)
@@ -128,9 +145,7 @@ class R1_mAP_eval():
         else:
             print('=> Computing DistMat with euclidean_distance')
             distmat = euclidean_distance(qf, gf)
+
         cmc, mAP = eval_func(distmat, q_pids, g_pids, q_camids, g_camids)
 
         return cmc, mAP, distmat, self.pids, self.camids, qf, gf
-
-
-

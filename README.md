@@ -1,9 +1,13 @@
 ![Python >=3.5](https://img.shields.io/badge/Python->=3.5-yellow.svg)
 ![PyTorch >=1.0](https://img.shields.io/badge/PyTorch->=1.6-blue.svg)
 
-# [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
 
-The *official* repository for  [TransReID: Transformer-based Object Re-Identification](https://arxiv.org/abs/2102.04378) achieves state-of-the-art performances on object re-ID, including person re-ID and vehicle re-ID.
+# Master thesis
+Master thesis ViT VeRi-776 solution
+
+# Original paper [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
+
+The repository for  [TransReID: Transformer-based Object Re-Identification](https://arxiv.org/abs/2102.04378) achieves state-of-the-art performances on object re-ID, including person re-ID and vehicle re-ID.
 
 ## Pipeline
 
@@ -126,7 +130,14 @@ python test.py --config_file configs/VeRi/vit_transreid_stride.yml MODEL.DEVICE_
 python test.py --config_file configs/VehicleID/vit_transreid_stride.yml MODEL.DEVICE_ID "('0')" TEST.WEIGHT '../logs/vehicleID_vit_transreid_stride/transformer_120.pth'
 ```
 
-## Trained Models and logs (Size 256)
+## Results Visualization 
+> :warning: Visualization is generated for all query images ! 
+
+```bash
+vit-visualization.sh
+```
+
+## Trained Models and logs from original paper (Size 256)
 
 ![framework](figs/sota.png)
 

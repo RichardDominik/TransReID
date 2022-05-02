@@ -7,6 +7,7 @@ from utils.meter import AverageMeter
 from utils.metrics import R1_mAP_eval
 from torch.cuda import amp
 import torch.distributed as dist
+import numpy as np
 
 def do_train(cfg,
              model,
@@ -142,7 +143,6 @@ def do_inference(cfg,
     logger.info("Enter inferencing")
 
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
-
     evaluator.reset()
 
     if device:
@@ -155,15 +155,24 @@ def do_inference(cfg,
     img_path_list = []
 
     for n_iter, (img, pid, camid, camids, target_view, imgpath) in enumerate(val_loader):
+        #start = time.time()
         with torch.no_grad():
             img = img.to(device)
             camids = camids.to(device)
             target_view = target_view.to(device)
             feat = model(img, cam_label=camids, view_label=target_view)
+
             evaluator.update((feat, pid, camid))
             img_path_list.extend(imgpath)
+        #end = time.time()
+        #print(end-start)
 
-    cmc, mAP, _, _, _, _, _ = evaluator.compute()
+    np.save('./logs/imgpath.npy', img_path_list[num_query:])
+
+    cmc, mAP, distmat, pids, camids, qfeats, gfeats = evaluator.compute()
+
+    torch.save(qfeats, os.path.join(cfg.LOG_DIR, 'qfeats.pth'))
+    torch.save(gfeats, os.path.join(cfg.LOG_DIR, 'gfeats.pth'))
     logger.info("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
     for r in [1, 5, 10]:
