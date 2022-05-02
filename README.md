@@ -131,6 +131,7 @@ python test.py --config_file configs/VehicleID/vit_transreid_stride.yml MODEL.DE
 ```
 
 ## Results Visualization 
+> :warning: Visualization is generated for all query images ! 
 
 ```bash
 vit-visualization.sh
