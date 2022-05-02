@@ -1,11 +1,14 @@
 ![Python >=3.5](https://img.shields.io/badge/Python->=3.5-yellow.svg)
 ![PyTorch >=1.0](https://img.shields.io/badge/PyTorch->=1.6-blue.svg)
 
-# [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
+# Master thesis
+Master thesis Swin Transformer VeRi-776 solution
+
+# Original paper [ICCV2021] TransReID: Transformer-based Object Re-Identification [[pdf]](https://openaccess.thecvf.com/content/ICCV2021/papers/He_TransReID_Transformer-Based_Object_Re-Identification_ICCV_2021_paper.pdf)
 
 The *official* repository for  [TransReID: Transformer-based Object Re-Identification](https://arxiv.org/abs/2102.04378) achieves state-of-the-art performances on object re-ID, including person re-ID and vehicle re-ID.
 
-## Pipeline
+## Original paper pipeline
 
 ![framework](figs/framework.png)
 
@@ -53,6 +56,12 @@ data
 ### Prepare DeiT or ViT Pre-trained Models
 
 You need to download the ImageNet pretrained transformer model : [ViT-Base](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth), [ViT-Small](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/vit_small_p16_224-15ec54c9.pth), [DeiT-Small](https://dl.fbaipublicfiles.com/deit/deit_small_distilled_patch16_224-649709d9.pth), [DeiT-Base](https://dl.fbaipublicfiles.com/deit/deit_base_distilled_patch16_224-df68dfff.pth)
+
+
+### Prepare Swin Transformer Pre-trained Models
+
+You need to download the ImageNet pretrained transformer model : [Swin-Transformer-Base](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22kto1k.pth)
+
 
 ## Training
 
@@ -126,7 +135,14 @@ python test.py --config_file configs/VeRi/vit_transreid_stride.yml MODEL.DEVICE_
 python test.py --config_file configs/VehicleID/vit_transreid_stride.yml MODEL.DEVICE_ID "('0')" TEST.WEIGHT '../logs/vehicleID_vit_transreid_stride/transformer_120.pth'
 ```
 
-## Trained Models and logs (Size 256)
+## Results Visualization 
+> :warning: Visualization is generated for all query images ! 
+
+```bash
+vit-visualization.sh
+```
+
+## Trained Models and logs from original paper (Size 256)
 
 ![framework](figs/sota.png)
 

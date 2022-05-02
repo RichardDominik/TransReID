@@ -2,9 +2,14 @@ import torch
 import numpy as np
 import os
 from utils.reranking import re_ranking
+import scipy.io
 
 
 def euclidean_distance(qf, gf):
+    device = 'cpu'
+    gf = gf.to(device)
+    qf = qf.to(device)
+    
     m = qf.shape[0]
     n = gf.shape[0]
     dist_mat = torch.pow(qf, 2).sum(dim=1, keepdim=True).expand(m, n) + \
@@ -13,7 +18,11 @@ def euclidean_distance(qf, gf):
     return dist_mat.cpu().numpy()
 
 def cosine_similarity(qf, gf):
+    device = 'cuda'
     epsilon = 0.00001
+    gf = gf.to(device)
+    qf = qf.to(device)
+
     dist_mat = qf.mm(gf.t())
     qf_norm = torch.norm(qf, p=2, dim=1, keepdim=True)  # mx1
     gf_norm = torch.norm(gf, p=2, dim=1, keepdim=True)  # nx1
@@ -106,7 +115,7 @@ class R1_mAP_eval():
         self.pids.extend(np.asarray(pid))
         self.camids.extend(np.asarray(camid))
 
-    def compute(self):  # called after each epoch
+    def compute(self, save_mat=False):  # called after each epoch
         feats = torch.cat(self.feats, dim=0)
         if self.feat_norm:
             print("The test feature is normalized")
@@ -129,6 +138,17 @@ class R1_mAP_eval():
             print('=> Computing DistMat with euclidean_distance')
             distmat = euclidean_distance(qf, gf)
         cmc, mAP = eval_func(distmat, q_pids, g_pids, q_camids, g_camids)
+
+        # gallery_f -> gf
+        # gallery_label -> q_pids
+        # gallery_cam -> q_camids
+        # query_f -> qf
+        # query_label -> q_pids
+        # query_cam -> q_camids
+
+        if save_mat:
+            result = {'gallery_f':gf.numpy(),'gallery_label':q_pids,'gallery_cam':q_camids,'query_f':qf.numpy(),'query_label':q_pids,'query_cam':q_camids}
+            scipy.io.savemat('pytorch_result.mat',result)
 
         return cmc, mAP, distmat, self.pids, self.camids, qf, gf
 

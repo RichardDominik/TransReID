@@ -56,6 +56,19 @@ _C.MODEL.ATT_DROP_RATE = 0.0
 _C.MODEL.TRANSFORMER_TYPE = 'None'
 _C.MODEL.STRIDE_SIZE = [16, 16]
 
+
+# Swin Transformer setting
+# Parameters taken from https://github.com/microsoft/Swin-Transformer/blob/main/configs/swin_base_patch4_window7_224.yaml
+_C.MODEL.SWIN_TRANSFORMER_ENABLED = False
+_C.MODEL.SWIN_TRANSFORMER_DROP_PATH_RATE = 0.1
+_C.MODEL.SWIN_TRANSFORMER_PATCH_SIZE = 4
+_C.MODEL.SWIN_TRANSFORMER_EMBED_DIM = 128
+_C.MODEL.SWIN_TRANSFORMER_DEPTHS = [2, 2, 18, 2]
+_C.MODEL.SWIN_TRANSFORMER_NUM_HEADS = [4, 8, 16, 32]
+_C.MODEL.SWIN_TRANSFORMER_WINDOW_SIZE = 7
+_C.MODEL.SWIN_TRANSFORMER_DROP_RATE= 0.0
+_C.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE = 0.0
+
 # JPM Parameter
 _C.MODEL.JPM = False
 _C.MODEL.SHIFT_NUM = 5
@@ -187,3 +200,7 @@ _C.TEST.EVAL = False
 # ---------------------------------------------------------------------------- #
 # Path to checkpoint and saved log of trained model
 _C.OUTPUT_DIR = ""
+
+_C.LOG_DIR = './logs'
+_C.PROJECT_NAME = 'swin trans pnspv'
+_C.QUERY_DIR = './data/VeRi/image_query'
