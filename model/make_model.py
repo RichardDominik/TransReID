@@ -485,7 +485,7 @@ def make_model(cfg, num_class, camera_num, view_num):
             print('===========building transformer===========')
     elif cfg.MODEL.NAME == 'swin_transformer':
         model = build_swin_transformer(num_class, camera_num, view_num, cfg, __factory_T_type)
-        print('===========building Swin tranformer===========')
+        print('===========building Swin transformer===========')
     else:
         model = Backbone(num_class, cfg)
         print('===========building ResNet===========')

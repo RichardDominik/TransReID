@@ -18,7 +18,6 @@ MODEL:
     WINDOW_SIZE: 7
 '''
 
-# TODO: replace TransReID constuctor ?
 def swin_base_patch4_window7_224(img_size=(256, 128), stride_size=16, drop_rate=0.0, attn_drop_rate=0.0, drop_path_rate=0.1, camera=0, view=0,local_feature=False,sie_xishu=1.5, **kwargs):
     model = TransReID(
         img_size=img_size, patch_size=16, stride_size=stride_size, embed_dim=128, depth=12, num_heads=8, mlp_ratio=4, qkv_bias=True,\

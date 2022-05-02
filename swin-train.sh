@@ -1,1 +1,0 @@
-nohup python train.py --config_file configs/VeRi/swin_transformer_transreid.yml MODEL.DEVICE_ID "('0')" > ./logs/swin_backbone_train.log 2>&1 &
