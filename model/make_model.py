@@ -66,20 +66,6 @@ class Backbone(nn.Module):
                                block=Bottleneck,
                                layers=[3, 4, 6, 3])
             print('using resnet50 as a backbone')
-        elif model_name == 'swin_backbone':
-            self.in_planes = 1000
-            self.base = SwinTransformer(
-                img_size=cfg.INPUT.SIZE_TRAIN[0],
-                patch_size=cfg.MODEL.SWIN_TRANSFORMER_PATCH_SIZE,
-                embed_dim=cfg.MODEL.SWIN_TRANSFORMER_EMBED_DIM,
-                depths=cfg.MODEL.SWIN_TRANSFORMER_DEPTHS,
-                num_heads=cfg.MODEL.SWIN_TRANSFORMER_NUM_HEADS,
-                window_size=cfg.MODEL.SWIN_TRANSFORMER_WINDOW_SIZE,
-                drop_path_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_PATH_RATE,
-                drop_rate=cfg.MODEL.SWIN_TRANSFORMER_DROP_RATE,
-                attn_drop_rate=cfg.MODEL.SWIN_TRANSFORMER_ATTN_DROP_RATE,
-            )
-            print('using SwinTransformer as a backbone')
         else:
             print('unsupported backbone! but got {}'.format(model_name))
 
@@ -101,7 +87,6 @@ class Backbone(nn.Module):
     def forward(self, x, label=None, cam_label=None, view_label=None):  # label is unused if self.cos_layer == 'no'
         x = self.base(x)
 
-        # TODO: swin global feat ?
         if self.model_name == 'resnet50':
             global_feat = nn.functional.avg_pool2d(x, x.shape[2:4])
             global_feat = global_feat.view(global_feat.shape[0], -1)  # flatten to (bs, 2048)
@@ -426,8 +411,7 @@ class build_swin_transformer(nn.Module):
             view_num = view_num
         else:
             view_num = 0
- 
-        #TODO: own method
+
         self.base = SwinTransformer(
                 img_size=cfg.INPUT.SIZE_TRAIN[0],
                 patch_size=cfg.MODEL.SWIN_TRANSFORMER_PATCH_SIZE,
@@ -499,10 +483,6 @@ def make_model(cfg, num_class, camera_num, view_num):
         else:
             model = build_transformer(num_class, camera_num, view_num, cfg, __factory_T_type)
             print('===========building transformer===========')
-    elif cfg.MODEL.NAME == 'swin_backbone':
-        # TODO: this is only baseline backbone, try to implement using custom build_transformer function
-        model = Backbone(num_class, cfg)
-        print('===========building Swin tranformer backbone===========')
     elif cfg.MODEL.NAME == 'swin_transformer':
         model = build_swin_transformer(num_class, camera_num, view_num, cfg, __factory_T_type)
         print('===========building Swin tranformer===========')
